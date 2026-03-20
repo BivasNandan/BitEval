@@ -1,14 +1,16 @@
 import express from 'express';
 import { ENV } from './lib/env.js';
 import path from 'path';
+import { connectDB } from './lib/db.js';
 
 const app = express();
 
-const __dirname = path.resolve();
+// Middleware
+app.use(express.json());
 
-
+// Routes
 app.get('/api', (req, res) => {
-  res.status(200).json({ message: 'Hello from the backend testing!'});
+  res.status(200).json({ message: 'Hello from the backend testing!' });
 });
 
 app.get('/api/data', (req, res) => {
@@ -25,6 +27,9 @@ app.get('/api/data', (req, res) => {
   res.status(200).json(data);
 });
 
+
+const __dirname = path.resolve();
+
 // make our app ready for deployment
 if(ENV.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../frontend/dist')));
@@ -34,7 +39,17 @@ if(ENV.NODE_ENV === 'production') {
   });
 }
 
+// Start server
+const startServer = async () => {
+  try {
+    await connectDB();
+    app.listen(ENV.PORT, () => {
+      console.log(`Server is running on port ${ENV.PORT}`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+};
 
-app.listen(ENV.PORT, () => {
-  console.log(`Server is running on port ${ENV.PORT}`);
-});
+startServer();
