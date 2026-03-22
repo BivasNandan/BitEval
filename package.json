@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/BivasNandan/BitEval/issues"
   },
-  "homepage": "https://github.com/BivasNandan/BitEval#readme"
+  "homepage": "https://github.com/BivasNandan/BitEval#readme",
+  "dependencies": {
+    "serialize-error-cjs": "^0.2.0"
+  }
 }
