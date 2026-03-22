@@ -23,7 +23,5 @@ const userSchema = new mongoose.Schema({
     { timestamps: true }
 );
 
-// This check prevents re-defining the model during hot reloads
-const User = mongoose.models.User || mongoose.model("User", userSchema);
-
+const User = mongoose.model("User", userSchema); 
 export default User;
